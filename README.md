@@ -97,7 +97,7 @@ WebDriver Issues: If you encounter issues related to Selenium WebDriver, ensure 
 
 Access Denied Errors: If you face issues accessing the download page, check your session handling and ensure you are logged in.
 # License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the GNU License - see the LICENSE file for details.
 
 ### Acknowledgements
 Beautiful Soup - For parsing HTML and XML documents.
