@@ -8,7 +8,7 @@ class Downloader:
     def download_file(self, download_url, output_dir, anime_name, episode_number=None, retries=3):
         """Download a file from the given URL to the specified output directory."""
         # Extract file name from the URL
-        file_name = download_url.split('/')[-1]
+        file_name = os.path.basename(download_url)
 
         # Construct a cleaner file name if an episode number is provided
         if episode_number is not None:
@@ -52,9 +52,13 @@ class Downloader:
             logging.info(f"File downloaded successfully: {file_path}")
             return file_path
 
-        except requests.RequestException as e:
-            logging.error(f"Failed to download {file_name}. Error: {e}")
-            return None  # Return None if the download fails
+        except requests.ConnectionError as ce:
+            logging.error(f"Connection error while downloading {file_name}. Error: {ce}")
+        except requests.Timeout as te:
+            logging.error(f"Timeout error while downloading {file_name}. Error: {te}")
+        except requests.HTTPError as he:
+            logging.error(f"HTTP error {response.status_code} while downloading {file_name}. Error: {he}")
+        
 
     def download_files(self, download_urls, output_dir, anime_name):
         """Download multiple files concurrently."""

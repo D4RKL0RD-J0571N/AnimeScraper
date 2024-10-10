@@ -34,27 +34,35 @@ class AnimeSearcher:
         soup = BeautifulSoup(html, 'html.parser')
         anime_list = []
 
-        for card in soup.select(".serie-card"):
-            title_tag = card.select_one(".title h3 a")
+        # Loop through each anime card on the page, using a more general selector for cards
+        for card in soup.select(".group.relative.overflow-hidden"):
+            # Get title using a more generalized approach (e.g., 'alt' attribute of the image or text within 'h3')
+            title_tag = card.select_one("h3")
             title = title_tag.text.strip() if title_tag else "Unknown Title"
-            link = title_tag['href'] if title_tag else ""
-            description = card.select_one(".serie-card__information p").text.strip()
-            image_url = card.select_one(".image img")['src']
-            year_tag = card.select_one(".tag.year")
-            year = year_tag.text.strip() if year_tag else "Unknown Year"
-            status_tag = card.select_one(".tag.airing")
-            status = status_tag.text.strip() if status_tag else "Unknown Status"
-            type_tag = card.select_one(".tag.type")
-            anime_type = type_tag.text.strip() if type_tag else "Unknown Type"
 
+            # Get link, ensuring fallback for href attributes
+            link_tag = card.select_one("a")
+            link = link_tag['href'] if link_tag else ""
+
+            # Get image URL, prioritizing the 'src' attribute
+            image_tag = card.select_one("img")
+            image_url = image_tag['src'] if image_tag else ""
+
+            # Get year, using a more generalized class or position-based selection
+            year_tag = card.select_one("span.bg-primary")
+            year = year_tag.text.strip() if year_tag else "Unknown Year"
+
+            # Get status, using a more flexible selector
+            status_tag = card.select_one("span.bg-zinc-700")
+            status = status_tag.text.strip() if status_tag else "Unknown Status"
+
+            # Append anime data to list
             anime_list.append({
                 "title": title,
                 "link": link,
-                "description": description,
                 "image_url": image_url,
                 "year": year,
-                "status": status,
-                "type": anime_type
+                "status": status
             })
 
         return anime_list
