@@ -1,13 +1,14 @@
 # Anime Scraper
 
-A Python project for scraping and downloading anime episodes from AnimeFenix, an anime streaming website. This project leverages web scraping techniques and Selenium to retrieve download links and handles downloading through multithreading for efficient processing.
+Anime Scraper is a Python application for downloading episodes and chapters of anime from the AnimeFenix website. It allows users to log in, search for their favorite anime, and fetch episodes or chapters with ease.
 
 ## Features
 
-- Scrapes anime episode links from AnimeFenix.
-- Automatically retrieves the final download URLs using Selenium for websites that require JavaScript redirection.
-- Downloads episodes concurrently using threading for improved efficiency.
-- Customizable output directory for downloaded files.
+- User authentication with session management.
+- Search anime by name or apply filters (genres, years, statuses).
+- Fetch and download episodes and chapters from preferred servers.
+- Configurable server preferences for download links.
+- Logging for tracking progress and errors.
 
 ## Requirements
 
@@ -17,88 +18,65 @@ A Python project for scraping and downloading anime episodes from AnimeFenix, an
   - `beautifulsoup4`
   - `tqdm`
   - `selenium`
-  - `webdriver_manager` (optional, for automatically managing ChromeDriver)
-  - `concurrent.futures`
+  - `webdriver_manager`
 
 You can install the required libraries using pip:
-
+```
 pip install requests beautifulsoup4 tqdm selenium webdriver_manager
+```
 
 ## Setup
 
-### Clone the repository:
-```
-git clone <repository_url>
-cd <repository_directory>
-```
-Ensure you have Chrome installed. The project uses the Chrome browser for Selenium. You can download it from here.
+### Clone the Repository:
 
-Configure your environment: Update any necessary configurations in the code as needed.
+```
+git clone https://github.com/D4RKL0RD-J0571N/AnimeScraper.git
+cd AnimeScraper
+```
+
+
+### Run the Application:
+
+To start the application, execute the main.py script:
+
+```
+python main.py
+```
+### Login:
+
+Enter your username and password when prompted.
+
+### Search for Anime:
+
+- Choose to search by anime name or filters.
+
+- Select an anime from the search results to proceed.
+
+### Download Episodes:
+
+- Choose the range of chapters you want to download.
+- The application will process and download the chapters to your specified output directory.
 
 ## Usage
 
-Running the Project
+### Key Classes
+- AnimeDownloader: Main class that handles user input and coordinates the download process.
+- SessionManager: Manages user sessions for login and maintaining authenticated states.
+- AnimeSearcher: Handles searching for anime based on user input.
+- EpisodeFetcher: Fetches episode links for the selected anime.
+- ChapterProcessor: Processes and downloads chapters using Selenium to navigate to the final download URLs.
 
-Import Necessary Modules:
 
-Ensure you import the necessary modules in your main script:
+Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
 
-```
-from chapter_processor import ChapterProcessor
-```
-### Initialize the Processor:
-
-Create an instance of the ChapterProcessor class with the required parameters:
-
-```
-session = <your_session>  # Replace with your session object
-anime_link = "<anime_slug>"  # Slug of the anime (extracted from the URL)
-anime_name = "<anime_name>"  # Name of the anime for file naming
-chapter_processor = ChapterProcessor(session, anime_link, anime_name)
-```
-
-### Process Chapters:
-
-Call the process_chapters method to start scraping and downloading:
-
-```
-start_chapter = 1  # Starting chapter number
-end_chapter = 10   # Ending chapter number
-output_dir = "downloads"  # Output directory for downloaded files
-chapter_processor.process_chapters(start_chapter, end_chapter, output_dir)
-```
-
-## Example
-Here's an example of how you might set everything up in a script:
-
-```
-from chapter_processor import ChapterProcessor
-
-def main():
-    session = <your_session>  # Your session handling code here
-    anime_link = "youkai-gakkou-no-sensei-hajimemashita"  # Example slug
-    anime_name = "Youkai Gakkou no Sensei Hajimemashita"
-    
-    chapter_processor = ChapterProcessor(session, anime_link, anime_name)
-    start_chapter = 1
-    end_chapter = 10
-    output_dir = "downloads"
-    
-    chapter_processor.process_chapters(start_chapter, end_chapter, output_dir)
-
-if __name__ == "__main__":
-    main()
-```
 ## Logging
 The project uses Python's logging module to log important events, errors, and information. You can customize the logging configuration in your main script if needed.
 
 ## Troubleshooting
 WebDriver Issues: If you encounter issues related to Selenium WebDriver, ensure you have the latest version of Chrome and that the webdriver_manager is correctly set up.
+-Access Denied Errors: If you face issues accessing the download page, check your session handling and ensure you are logged in.
+- 403 Forbidden client error response status code indicates that the server understood the request but refused to process it, this is caused by authentication protocols like Captchas.
 
-Access Denied Errors: If you face issues accessing the download page, check your session handling and ensure you are logged in.
 # License
 This project is licensed under the GNU License - see the LICENSE file for details.
-
-### Acknowledgements
-Beautiful Soup - For parsing HTML and XML documents.
-Selenium - For automating web applications for testing purposes.
